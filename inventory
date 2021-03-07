@@ -1,2 +1,11 @@
-[test]
-testnode.dev.shearn89.com
+---
+all:
+  children:
+    test
+
+test:
+  hosts:
+    testnode.dev.shearn89.com:
+  vars:
+    os_auth_ldap: true
+    os_auth_sssd: true
