@@ -1,0 +1,10 @@
+---
+- name: get nifi keytabs
+  hosts: nifi
+  remote_user: shearna
+  tasks:
+  - name: retrieve kerberos keytab
+    shell: "/sbin/ipa-getkeytab -p HTTP/$(hostname -f) -k krb5-http.keytab"
+  - name: move keytab
+    become: True
+    shell: "mv krb5-http.keytab /etc/"

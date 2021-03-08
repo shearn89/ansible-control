@@ -5,5 +5,4 @@
       file:
         path: /opt/nifi
         state: absent
-        recurse: true
         force: true

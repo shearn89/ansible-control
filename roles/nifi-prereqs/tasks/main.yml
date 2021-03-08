@@ -1,0 +1,52 @@
+---
+- name: install java
+  package:
+    name: java-11-openjdk-headless.x86_64
+    state: present
+- name: request cert
+  shell: 'ipa-getcert request -k /etc/pki/tls/private/$(hostname).pem -f /etc/pki/tls/$(hostname).pem'
+  args:
+    creates: /etc/pki/tls/{{ inventory_hostname }}.pem
+- name: get cert contents
+  slurp:
+    src: "/etc/pki/tls/{{ inventory_hostname }}.pem"
+  register: cert_contents
+- name: get key contents
+  slurp:
+    src: "/etc/pki/tls/private/{{ inventory_hostname }}.pem"
+  register: key_contents
+- name: create java keystore
+  java_keystore:
+    name: "{{ inventory_hostname }}"
+    certificate: "{{ cert_contents['content'] | b64decode }}"
+    private_key: "{{ key_contents['content'] | b64decode }}"
+    password: changeit
+    dest: /etc/pki/java/keystore.jks
+- name: create nifi directory
+  file:
+    path: /opt/nifi
+    state: directory
+- name: Upload NiFi distribution (tar.gz) from localhost
+  copy:
+    src: "nifi-{{ nifi_version }}-bin.tar.gz"
+    dest: /opt/nifi
+- name: Unarchive NiFi distribution
+  unarchive:
+    src: "/opt/nifi/nifi-{{ nifi_version }}-bin.tar.gz"
+    dest: /opt/nifi
+    copy: no
+    creates: "/opt/nifi/nifi-{{ nifi_version }}"
+- name: nifi port
+  firewalld:
+    port: "{{ item }}/tcp"
+    permanent: true
+    state: enabled
+  with_items:
+    - 8443
+    - 2181
+    - 2888
+    - 3888
+    - 11443
+    - 6342
+- name: reload firewalld
+  shell: firewall-cmd --reload

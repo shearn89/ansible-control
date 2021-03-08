@@ -9,7 +9,7 @@ THIS HAS BEEN MODIFIED BY BT
 * Removing the `is_zk_node` check from the properties file because we're not deploying on EC2
 * Fiddling with the zookeeper settings to get the embedded one to work
 * Fixing up cluster addressing and ports via firewalld
-* Kerberos integration in nifi.properties and login-ident-prov
+* Kerberos integration in nifi.properties and login-ident-prov. Including login.identity.provider, spnego details, etc.
 
 Requirements
 ------------
