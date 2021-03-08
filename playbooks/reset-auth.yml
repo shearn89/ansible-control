@@ -9,7 +9,7 @@
       with_items:
         - /opt/nifi/nifi-current/conf/authorizations.xml
         - /opt/nifi/nifi-current/conf/users.xml
-    - name: restart nifi
-      service:
-        name: nifi
-        state: restarted
+#    - name: restart nifi
+#      service:
+#        name: nifi
+#        state: restarted
