@@ -11,9 +11,9 @@
       nifi_node_jvm_memory: '2048M'
       nifi_single_node: False
       nifi_authorized_nodes_list:
-        - nifi-1.dev.shearn89.com
-        - nifi-2.dev.shearn89.com
-        - nifi-3.dev.shearn89.com
+        - CN=nifi-1.dev.shearn89.com, O=DEV.SHEARN89.COM
+        - CN=nifi-2.dev.shearn89.com, O=DEV.SHEARN89.COM
+        - CN=nifi-3.dev.shearn89.com, O=DEV.SHEARN89.COM
       nifi_zookeeper_servers:
         - 192.168.89.51
         - 192.168.89.52

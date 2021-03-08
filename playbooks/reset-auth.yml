@@ -1,0 +1,15 @@
+---
+- hosts: nifi
+  tasks:
+    - name: purge authorizations
+      file:
+        path: "{{ item }}"
+        state: absent
+        force: true
+      with_items:
+        - /opt/nifi/nifi-current/conf/authorizations.xml
+        - /opt/nifi/nifi-current/conf/users.xml
+    - name: restart nifi
+      service:
+        name: nifi
+        state: restarted

@@ -287,7 +287,7 @@
 
         {% if nifi_authorized_nodes_list | length > 0 -%}
         {% for node in nifi_authorized_nodes_list -%}
-        <property name="Node Identity {{ loop.index }}">CN={{ node }}, OU=NIFI</property>
+        <property name="Node Identity {{ loop.index }}">{{ node }}</property>
         {% endfor -%}
         {% endif -%}
         <property name="Node Group"></property>
