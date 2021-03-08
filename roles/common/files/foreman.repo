@@ -1,0 +1,11 @@
+[foreman-plugins]
+baseurl=https://yum.theforeman.org/plugins/2.1/el7/x86_64/
+enabled=1
+gpgcheck=1
+gpgkey=https://yum.theforeman.org/RPM-GPG-KEY-foreman
+
+[foreman-client]
+baseurl=https://yum.theforeman.org/client/2.1/el7/x86_64/
+enabled=1
+gpgcheck=1
+gpgkey=https://yum.theforeman.org/RPM-GPG-KEY-foreman

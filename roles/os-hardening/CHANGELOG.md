@@ -2,7 +2,7 @@
 
 ## 6.2.1 (2020-XX-XX)
 
-* fixing up pam so AD/IPA integration doesn't get stomped
+* fixing up pam so AD/IPA integration doesn't get stomped, controlled by `os_auth_ldap` and `os_auth_sssd`
 
 
 ## [6.2.0](https://github.com/dev-sec/ansible-os-hardening/tree/6.2.0) (2020-08-16)

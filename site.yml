@@ -1,4 +1,85 @@
 ---
-- hosts: all
+- hosts: test
   roles:
     - os-hardening
+  tags:
+    - base
+- name: Install NiFi
+  hosts: nifi
+  vars: 
+      nifi_log_level_root: WARN
+      nifi_node_jvm_memory: '2048M'
+      nifi_single_node: False
+      nifi_authorized_nodes_list:
+        - nifi-1.dev.shearn89.com
+        - nifi-2.dev.shearn89.com
+        - nifi-3.dev.shearn89.com
+      nifi_zookeeper_servers:
+        - 192.168.89.51
+        - 192.168.89.52
+        - 192.168.89.53
+      nifi_state_management_embedded_zookeeper_start: True
+      nifi_version: 1.12.1
+      nifi_is_secure: True
+      nifi_initial_admin: shearna
+      nifi_security_keystore: /etc/pki/java/keystore.jks
+      nifi_security_keystoreType: JKS
+      nifi_security_keystorePasswd: changeit
+      nifi_security_truststore: /etc/pki/java/cacerts
+      nifi_security_truststoreType: JKS
+      nifi_security_truststorePasswd: changeit
+  pre_tasks:
+    - name: install java
+      package:
+        name: java-11-openjdk-headless.x86_64
+        state: present
+    - name: request cert
+      shell: 'ipa-getcert request -k /etc/pki/tls/private/$(hostname).pem -f /etc/pki/tls/$(hostname).pem'
+      args:
+        creates: /etc/pki/tls/{{ inventory_hostname_short }}.pem
+    - name: create java keystore
+      java_keystore:
+        name: "{{ inventory_hostname }}"
+        certificate: "{{lookup('file', '/etc/pki/tls/{{ inventory_hostname_short }}.pem') }}"
+        private_key: "{{lookup('file', '/etc/pki/tls/private/{{ inventory_hostname_short }}.pem') }}"
+        password: changeit
+        dest: /etc/pki/java/keystore.jks
+    - name: retrieve kerberos keytab
+      shell: "ipa-getkeytab -p HTTP/$(hostname -f) -k /etc/krb5-http.keytab"
+      args:
+        creates: /etc/krb5-http.keytab
+    - name: create nifi directory
+      file:
+        path: /opt/nifi
+        state: directory
+    - name: Upload NiFi distribution (tar.gz) from localhost
+      copy:
+        src: "nifi-{{ nifi_version }}-bin.tar.gz"
+        dest: /opt/nifi
+    - name: Unarchive NiFi distribution
+      unarchive:
+        src: "/opt/nifi/nifi-{{ nifi_version }}-bin.tar.gz"
+        dest: /opt/nifi
+        copy: no
+        creates: "/opt/nifi/nifi-{{ nifi_version }}"
+    - name: nifi port
+      firewalld:
+        port: "{{ item }}/tcp"
+        permanent: true
+        state: enabled
+      with_items:
+        - 8080
+        - 2181
+        - 2888
+        - 3888
+        - 11443
+        - 6342
+    - name: reload firewalld
+      shell: firewall-cmd --reload
+  roles:
+    - role: nifi
+      nifi_version: 1.12.1
+      tags:
+        - nifi-role
+  tags:
+    - nifi
