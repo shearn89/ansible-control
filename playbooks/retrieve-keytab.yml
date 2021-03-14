@@ -8,3 +8,9 @@
   - name: move keytab
     become: True
     shell: "mv krb5-http.keytab /etc/"
+  - name: permissions
+    file:
+      path: /etc/krb5-http.keytab
+      owner: nifi
+      group: nifi
+      mode: 0600
