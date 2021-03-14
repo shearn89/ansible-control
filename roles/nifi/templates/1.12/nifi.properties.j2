@@ -225,6 +225,9 @@ nifi.security.user.knox.audiences=
 # nifi.security.identity.mapping.pattern.kerb=^(.*?)/instance@(.*?)$
 # nifi.security.identity.mapping.value.kerb=$1@$2
 # nifi.security.identity.mapping.transform.kerb=UPPER
+nifi.security.identity.mapping.pattern.kerbuser=^(.*?)@(.*?)$
+nifi.security.identity.mapping.value.kerbuser=$1@$2
+nifi.security.identity.mapping.transform.kerbuser=UPPER
 
 # Group Mapping Properties #
 # These properties allow normalizing group names coming from external sources like LDAP. The following example

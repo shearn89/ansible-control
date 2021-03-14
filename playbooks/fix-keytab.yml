@@ -1,0 +1,16 @@
+---
+- name: get nifi keytabs
+  hosts: nifi
+  tasks:
+  - name: retrieve kerberos keytab
+    file:
+      path: "{{ item }}"
+      owner: nifi
+      group: nifi
+      mode: '0600'
+    loop:
+      - /etc/krb5-http.keytab
+  - name: restart nifi
+    service:
+      name: nifi
+      state: restarted

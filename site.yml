@@ -21,7 +21,7 @@
       nifi_state_management_embedded_zookeeper_start: True
       nifi_version: 1.12.1
       nifi_is_secure: True
-      nifi_initial_admin: shearna@DEV.SHEARN89.COM
+      nifi_initial_admin: SHEARNA@DEV.SHEARN89.COM
       nifi_security_keystore: /etc/pki/java/keystore.jks
       nifi_security_keystoreType: JKS
       nifi_security_keystorePasswd: changeit
