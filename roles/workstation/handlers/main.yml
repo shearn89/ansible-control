@@ -1,0 +1,4 @@
+---
+- name: dconf-handler
+  become: yes
+  shell: dconf update

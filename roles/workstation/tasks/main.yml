@@ -1,0 +1,16 @@
+---
+- name: copy logo for login screen
+  copy:
+    src: logo.png
+    dest: /opt/logo.png
+    owner: root
+    group: root
+    mode: 0644
+- name: Set login screen params
+  template:
+    src: login-screen.j2
+    dest: /etc/dconf/db/local.d/00-login-screen
+    owner: root
+    group: root
+    mode: 0644
+  notify: dconf-handler
