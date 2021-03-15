@@ -1,0 +1,12 @@
+---
+- hosts: nifi
+  tasks:
+    - name: enable anonymous auth
+      lineinfile:
+        path: '/opt/nifi/nifi-current/conf/nifi.properties'
+        regexp: '^nifi.security.allow.anonymous.authentication'
+        line: 'nifi.security.allow.anonymous.authentication=true'
+    - name: restart nifi
+      service:
+        name: nifi
+        state: restarted

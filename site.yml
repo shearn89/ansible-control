@@ -28,6 +28,7 @@
       nifi_security_truststore: /etc/pki/java/cacerts
       nifi_security_truststoreType: JKS
       nifi_security_truststorePasswd: changeit
+      nifi_enable_anonymous_auth: true
   pre_tasks:
   roles:
     - role: nifi-prereqs
