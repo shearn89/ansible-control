@@ -3,6 +3,7 @@ all:
     test:
       hosts:
         testnode.dev.shearn89.com:
+        gui.dev.shearn89.com:
       vars:
         os_auth_ldap: true
         os_auth_sssd: true
@@ -11,3 +12,11 @@ all:
         nifi-1.dev.shearn89.com:
         nifi-2.dev.shearn89.com:
         nifi-3.dev.shearn89.com:
+    core:
+      hosts:
+        ipa.dev.shearn89.com:
+        satellite.dev.shearn89.com:
+    infra:
+      hosts:
+        monitor.dev.shearn89.com:
+        metrics.dev.shearn89.com:
