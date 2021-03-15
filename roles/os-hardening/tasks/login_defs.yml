@@ -6,3 +6,10 @@
     owner: 'root'
     group: 'root'
     mode: '0444'
+- name: set up profile defaults
+  template:
+    src: 'etc/profile.d/cis_controls.sh.j2'
+    dest: '/etc/profile.d/cis_controls.sh'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'

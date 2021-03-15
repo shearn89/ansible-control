@@ -1,0 +1,4 @@
+{{ ansible_managed | comment }}
+readonly TMOUT={{ os_user_timeout }} ; export TMOUT
+umask {{ os_env_umask }}
+

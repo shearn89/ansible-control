@@ -3,10 +3,9 @@ all:
     test:
       hosts:
         testnode.dev.shearn89.com:
+    gui:
+      hosts:
         gui.dev.shearn89.com:
-      vars:
-        os_auth_ldap: true
-        os_auth_sssd: true
     nifi:
       hosts:
         nifi-1.dev.shearn89.com:
@@ -20,3 +19,6 @@ all:
       hosts:
         monitor.dev.shearn89.com:
         metrics.dev.shearn89.com:
+  vars:
+    os_auth_ldap: true
+    os_auth_sssd: true
