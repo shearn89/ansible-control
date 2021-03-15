@@ -1,0 +1,24 @@
+---
+- name: check tmp settings
+  mount:
+    path: /tmp
+    src: tmpfs
+    fstype: tmpfs
+    opts: rw,noexec,nodev,nosuid,size=2G
+    state: present
+
+- name: check /var/tmp settings
+  mount:
+    path: /tmp
+    src: tmpfs
+    fstype: tmpfs
+    opts: rw,noexec,nodev,nosuid,size=2G
+    state: present
+
+- name: check /dev/shm settings
+  mount:
+    path: /dev/shm
+    src: tmpfs
+    fstype: tmpfs
+    opts: rw,noexec,nodev,nosuid,seclabel
+    state: present

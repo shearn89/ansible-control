@@ -11,3 +11,29 @@
     owner: 'root'
     group: 'root'
     mode: '0640'
+
+- name: configure audit rules
+  copy:
+    src: "etc/audit/rules.d/{{ item }}"
+    dest: '/etc/audit/rules.d/'
+    owner: 'root'
+    group: 'root'
+    mode: '0640'
+  loop:
+    - time_change.rules
+    - identity.rules
+    - system_local.rules
+    - MAC_policy.rules
+    - logins.rules
+    - sessions.rules
+    - perm_mod.rules
+    - access.rules
+    - mounts.rules
+    - deletion.rules
+    - scope.rules
+    - actions.rules
+    - modules.rules
+    - 99-finalize.rules
+
+# TODO: privileged commands?
+# TODO: set up sudoers for logging, and dsiable su

@@ -13,6 +13,9 @@
       skip: true
   tags: always
 
+- import_tasks: mounts.yml
+  tags: mounts
+
 - import_tasks: auditd.yml
   tags: auditd
   when: os_auditd_enabled | bool
