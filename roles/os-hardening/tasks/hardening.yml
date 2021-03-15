@@ -35,9 +35,6 @@
 - import_tasks: modprobe.yml
   tags: modprobe
 
-- import_tasks: profile.yml
-  tags: profile
-
 - import_tasks: securetty.yml
   tags: securetty
 
