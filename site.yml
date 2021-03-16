@@ -1,9 +1,16 @@
 ---
+- hosts: all
+  roles:
+    - common
+  tags:
+    - common
+
 - hosts: test
   roles:
     - os-hardening
   tags:
     - base
+
 - name: Install NiFi
   hosts: nifi
   vars: 
