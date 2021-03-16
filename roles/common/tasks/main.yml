@@ -1,21 +1,35 @@
 ---
 - name: install foreman repos
   debug:
-    msg: todo
+    msg: "todo"
+
 - name: get cert from IPA
-  shell: ipa-getcert request -k /etc/pki/tls/private/$(hostname).pem -f /etc/pki/tls/certs/$(hostname).pem
+  shell: "ipa-getcert request -k /etc/pki/tls/private/{{ inventory_hostname_short }}.pem -f /etc/pki/tls/certs/{{ inventory_hostname_short }}.pem"
+  args:
+    creates: "/etc/pki/tls/certs/{{ inventory_hostname_short }}.pem"
+
 - name: install check-mk-agent
   package:
     name: https://monitor.dev.shearn89.com/cmk/check_mk/agents/check-mk-agent-2.0.0-1.noarch.rpm
     state: present
+
 - name: open firewall for cmk agent
   firewalld:
     port: 6556/tcp
     permanent: yes
     state: enabled
+    immediate: yes
+
 - name: fix postfix
   lineinfile:
     path: /etc/postfix/main.cf
-    regexp: '^.*inet_interfaces ='
-    line: 'inet_interfaces = ipv4'
+    regexp: '^inet_interfaces = '
+    line: 'inet_interfaces = localhost'
+  notify: restart-postfix
+
+- name: fix postfix 2
+  lineinfile:
+    path: /etc/postfix/main.cf
+    regexp: '^inet_protocols = '
+    line: 'inet_protocols = ipv4'
   notify: restart-postfix
