@@ -57,8 +57,8 @@ nifi_cluster_node_address: "{{ inventory_hostname }}"
 nifi_cluster_node_protocol_port: 11443
 
 # Site to Site properties
-nifi_remote_input_host:
-nifi_remote_input_socket_port:
+nifi_remote_input_host: "{{ inventory_hostname }}"
+nifi_remote_input_socket_port: 10443
 
 # Queue swap settings
 nifi_queue_swap_threshold: 20000
