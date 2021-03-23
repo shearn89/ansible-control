@@ -8,6 +8,11 @@
   args:
     creates: "/etc/pki/tls/certs/{{ inventory_hostname_short }}.pem"
 
+- name: install katello certs for openscap scan results
+  package:
+    name: https://satellite.dev.shearn89.com/pub/katello-ca-consumer-latest.noarch.rpm
+    state: present
+
 - name: install check-mk-agent
   package:
     name: https://monitor.dev.shearn89.com/cmk/check_mk/agents/check-mk-agent-2.0.0-1.noarch.rpm
@@ -33,3 +38,6 @@
     regexp: '^inet_protocols = '
     line: 'inet_protocols = ipv4'
   notify: restart-postfix
+
+- name: fix authconfig
+  shell: authconfig --enablesssd --enablesssdauth --updateall
