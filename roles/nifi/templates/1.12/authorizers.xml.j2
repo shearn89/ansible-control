@@ -41,6 +41,49 @@
         {% endif -%}
     </userGroupProvider>
 
+    <userGroupProvider>
+        <identifier>ldap-user-group-provider</identifier>
+        <class>org.apache.nifi.ldap.tenants.LdapUserGroupProvider</class>
+        <property name="Authentication Strategy"></property>
+
+        <property name="Manager DN">uid=binduser,cn=sysaccounts,cn=etc,dc=dev,dc=shearn89,dc=com</property>
+        <property name="Manager Password">bind-query-only</property>
+
+        <property name="TLS - Keystore">/etc/pki/java/keystore.jks</property>
+        <property name="TLS - Keystore Password">changeit</property>
+        <property name="TLS - Keystore Type">JKS</property>
+        <property name="TLS - Truststore">/etc/pki/java/cacerts</property>
+        <property name="TLS - Truststore Password">changeit</property>
+        <property name="TLS - Truststore Type">JKS</property>
+        <property name="TLS - Client Auth">WANT</property>
+        <property name="TLS - Protocol">TLSv1.2</property>
+        <property name="TLS - Shutdown Gracefully"></property>
+        
+        <property name="Referral Strategy">FOLLOW</property>
+        <property name="Connect Timeout">10 secs</property>
+        <property name="Read Timeout">10 secs</property>
+
+        <property name="Url">ldaps://ipa.dev.shearn89.com:636</property>
+        <property name="Page Size"></property>
+        <property name="Sync Interval">5 mins</property>
+
+        <property name="User Search Base">cn=accounts,dc=dev,dc=shearn89,dc=com</property>
+        <property name="User Object Class">ipaobject</property>
+        <property name="User Search Scope">SUBTREE</property>
+        <property name="User Search Filter">*</property>
+        <property name="User Identity Attribute">uid</property>
+        <property name="User Group Name Attribute">memberOf</property>
+        <property name="User Group Name Attribute - Referenced Group Attribute"></property>
+
+        <property name="Group Search Base">cn=accounts,dc=dev,dc=shearn89,dc=com</property>
+        <property name="Group Object Class">groupofnames</property>
+        <property name="Group Search Scope">SUBTREE</property>
+        <property name="Group Search Filter">*</property>
+        <property name="Group Name Attribute">cn</property>
+        <property name="Group Member Attribute">member</property>
+        <property name="Group Member Attribute - Referenced User Attribute"></property>
+    </userGroupProvider>
+
     <accessPolicyProvider>
         <identifier>file-access-policy-provider</identifier>
         <class>org.apache.nifi.authorization.FileAccessPolicyProvider</class>
