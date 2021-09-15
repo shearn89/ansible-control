@@ -52,6 +52,7 @@
       nifi_enable_anonymous_auth: true
       nifi_log_app_file_retention: 10
       nifi_log_user_file_retention: 10
+      nifi_perform_restart: False
   pre_tasks:
   roles:
     - role: nifi-prereqs

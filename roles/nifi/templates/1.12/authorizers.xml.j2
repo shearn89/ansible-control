@@ -26,14 +26,6 @@
     ...
 -->
 <authorizers>
-
-    <userGroupProvider>
-        <identifier>file-user-group-provider</identifier>
-        <class>org.apache.nifi.authorization.FileUserGroupProvider</class>
-        <property name="Users File">{{ nifi_conf_dir }}/users.xml</property>
-        <property name="Legacy Authorized Users File"></property>
-    </userGroupProvider>
-
     <userGroupProvider>
         <identifier>ldap-user-group-provider</identifier>
         <class>org.apache.nifi.ldap.tenants.LdapUserGroupProvider</class>
@@ -77,21 +69,12 @@
         <property name="Group Member Attribute - Referenced User Attribute"></property>
     </userGroupProvider>
 
-    <userGroupProvider>
-        <identifier>composite-configurable-user-group-provider</identifier>
-        <class>org.apache.nifi.authorization.CompositeConfigurableUserGroupProvider</class>
-        <property name="Configurable User Group Provider">file-user-group-provider</property>
-        <property name="User Group Provider 1">ldap-user-group-provider</property>
-    </userGroupProvider>
-
     <accessPolicyProvider>
         <identifier>file-access-policy-provider</identifier>
         <class>org.apache.nifi.authorization.FileAccessPolicyProvider</class>
-        <property name="User Group Provider">composite-configurable-user-group-provider</property>
+        <property name="User Group Provider">ldap-user-group-provider</property>
         <property name="Authorizations File">{{ nifi_conf_dir }}/authorizations.xml</property>
         <property name="Initial Admin Identity">{{ nifi_initial_admin | default('') }}</property>
-        <property name="Legacy Authorized Users File"></property>
-
         <property name="Node Group">nifi</property>
     </accessPolicyProvider>
 
