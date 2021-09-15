@@ -1,0 +1,11 @@
+---
+- name: configure firewall
+  firewalld:
+    port: "{{ item }}"
+    permanent: yes
+    state: enabled
+    immediate: yes
+  loop:
+    - '2181/tcp'
+    - '2888/tcp'
+    - '3888/tcp'
