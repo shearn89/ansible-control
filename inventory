@@ -20,6 +20,11 @@ all:
       hosts:
         monitor.dev.shearn89.com:
         metrics.dev.shearn89.com:
+    zookeeper:
+      hosts:
+        zk-1.dev.shearn89.com:
+        zk-2.dev.shearn89.com:
+        zk-3.dev.shearn89.com:
   vars:
     os_auth_ldap: true
     os_auth_sssd: true

@@ -7,6 +7,11 @@
   shell: 'ipa-getcert request -k /etc/pki/tls/private/$(hostname).pem -f /etc/pki/tls/$(hostname).pem'
   args:
     creates: /etc/pki/tls/{{ inventory_hostname }}.pem
+- name: Wait until the string "CERTIFICATE" is in the cert file
+  wait_for:
+    path: /etc/pki/tls/{{ inventory_hostname }}.pem
+    search_regex: CERTIFICATE
+    timeout: 30
 - name: get cert contents
   slurp:
     src: "/etc/pki/tls/{{ inventory_hostname }}.pem"
@@ -41,6 +46,7 @@
     port: "{{ item }}/tcp"
     permanent: true
     state: enabled
+    immediate: true
   with_items:
     - 8443
     - 2181
@@ -49,5 +55,3 @@
     - 10443
     - 11443
     - 6342
-- name: reload firewalld
-  shell: firewall-cmd --reload

@@ -23,11 +23,12 @@
     - kernel-headers
     - openssl-devel
     - make
-    - glibc-devel 
+    - glibc-devel
     - dkms
+    - mlocate
 
 - name: get cert from IPA
-  shell: "ipa-getcert request -k /etc/pki/tls/private/{{ inventory_hostname_short }}.pem -f /etc/pki/tls/certs/{{ inventory_hostname_short }}.pem"
+  command: "ipa-getcert request -k /etc/pki/tls/private/{{ inventory_hostname_short }}.pem -f /etc/pki/tls/certs/{{ inventory_hostname_short }}.pem"
   args:
     creates: "/etc/pki/tls/certs/{{ inventory_hostname_short }}.pem"
 
@@ -48,6 +49,19 @@
     state: enabled
     immediate: yes
 
+- name: copy add-to-cmk.sh
+  copy:
+    src: add-to-cmk.sh
+    dest: /root/add-to-cmk.sh
+    owner: root
+    group: root
+    mode: 0750
+
+- name: run add-to-cmk.sh
+  command:
+    cmd: /root/add-to-cmk.sh
+    creates: /opt/.cmk_added
+
 - name: fix postfix
   lineinfile:
     path: /etc/postfix/main.cf
@@ -63,4 +77,4 @@
   notify: restart-postfix
 
 - name: fix authconfig
-  shell: authconfig --enablesssd --enablesssdauth --updateall
+  command: authconfig --enablesssd --enablesssdauth --updateall

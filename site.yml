@@ -13,6 +13,21 @@
   tags:
     - base
 
+- name: Install Zookeeper
+  hosts: zookeeper
+  become: true
+  vars:
+    zookeeper_id: "{{  ansible_default_ipv4.address | splitext | last | replace('.', '') }}"
+    zookeeper_servers: "{{ groups['zookeeper'] }}"
+  roles:
+    - role: geerlingguy.java
+      java_packages:
+        - java-11-openjdk-headless.x86_64
+    - sleighzy.zookeeper
+    - zk-tweaks
+  tags:
+    - zookeeper
+
 - name: Install NiFi
   hosts: nifi
   become: true
@@ -20,15 +35,11 @@
       nifi_log_level_root: WARN
       nifi_node_jvm_memory: '2048M'
       nifi_single_node: False
-      nifi_authorized_nodes_list:
-        - CN=nifi-1.dev.shearn89.com, O=DEV.SHEARN89.COM
-        - CN=nifi-2.dev.shearn89.com, O=DEV.SHEARN89.COM
-        - CN=nifi-3.dev.shearn89.com, O=DEV.SHEARN89.COM
       nifi_zookeeper_servers:
-        - 192.168.89.51
-        - 192.168.89.52
-        - 192.168.89.53
-      nifi_state_management_embedded_zookeeper_start: True
+        - zk-1.dev.shearn89.com
+        - zk-2.dev.shearn89.com
+        - zk-3.dev.shearn89.com
+      nifi_state_management_embedded_zookeeper_start: False
       nifi_version: 1.12.1
       nifi_is_secure: True
       nifi_initial_admin: SHEARNA@DEV.SHEARN89.COM
