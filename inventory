@@ -11,6 +11,7 @@ all:
         nifi-1.dev.shearn89.com:
         nifi-2.dev.shearn89.com:
         nifi-3.dev.shearn89.com:
+        nifi-4.dev.shearn89.com:
     core:
       hosts:
         ipa.dev.shearn89.com:

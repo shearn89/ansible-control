@@ -1,11 +1,13 @@
 ---
 - hosts: all
+  become: true
   roles:
     - common
   tags:
     - common
 
 - hosts: test
+  become: true
   roles:
     - os-hardening
   tags:
@@ -13,6 +15,7 @@
 
 - name: Install NiFi
   hosts: nifi
+  become: true
   vars: 
       nifi_log_level_root: WARN
       nifi_node_jvm_memory: '2048M'
@@ -36,6 +39,8 @@
       nifi_security_truststoreType: JKS
       nifi_security_truststorePasswd: changeit
       nifi_enable_anonymous_auth: true
+      nifi_log_app_file_retention: 10
+      nifi_log_user_file_retention: 10
   pre_tasks:
   roles:
     - role: nifi-prereqs

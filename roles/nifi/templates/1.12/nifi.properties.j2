@@ -194,7 +194,7 @@ nifi.security.truststorePasswd=
 nifi.security.needClientAuth={{ nifi_need_client_auth | default('')}}
 nifi.security.user.authorizer=managed-authorizer
 nifi.security.allow.anonymous.authentication={{ nifi_enable_anonymous_auth }}
-nifi.security.user.login.identity.provider=kerberos-provider
+nifi.security.user.login.identity.provider=ldap-provider
 nifi.security.ocsp.responder.url=
 nifi.security.ocsp.responder.certificate=
 
@@ -218,15 +218,22 @@ nifi.security.user.knox.audiences=
 # These properties allow normalizing user identities such that identities coming from different identity providers
 # (certificates, LDAP, Kerberos) can be treated the same internally in NiFi. The following example demonstrates normalizing
 # DNs from certificates and principals from Kerberos into a common identity string:
+### KERBEROS USER
 nifi.security.identity.mapping.pattern.kerbuser=^(.*?)@(.*?)$
 nifi.security.identity.mapping.value.kerbuser=$1@$2
 nifi.security.identity.mapping.transform.kerbuser=UPPER
-nifi.security.identity.mapping.pattern.host=^fqdn=(.*?),cn=computers,cn=accounts,dc=dev,dc=shearn89,dc=com
-nifi.security.identity.mapping.value.host=$1@DEV.SHEARN89.COM
-nifi.security.identity.mapping.transform.host=UPPER
+### LDAP USER
 nifi.security.identity.mapping.pattern.user=^uid=(.*?),cn=users,cn=accounts,dc=dev,dc=shearn89,dc=com
 nifi.security.identity.mapping.value.user=$1@DEV.SHEARN89.COM
 nifi.security.identity.mapping.transform.user=UPPER
+### LDAP HOST
+nifi.security.identity.mapping.pattern.host=^fqdn=(.*?),cn=computers,cn=accounts,dc=dev,dc=shearn89,dc=com
+nifi.security.identity.mapping.value.host=$1
+nifi.security.identity.mapping.transform.host=UPPER
+### CERT HOST
+nifi.security.identity.mapping.pattern.cert=^CN=(.*?), O=DEV.SHEARN89.COM
+nifi.security.identity.mapping.value.cert=$1
+nifi.security.identity.mapping.transform.cert=UPPER
 
 # Group Mapping Properties #
 # These properties allow normalizing group names coming from external sources like LDAP. The following example
